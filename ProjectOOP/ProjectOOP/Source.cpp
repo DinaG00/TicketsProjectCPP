@@ -22,6 +22,7 @@ class event
 //----------------------------------------------------------------------------------------------------------------------
 //nominal tickets according to the desired characteristics
 //(eg: VIP, lawn, tribune, boxes, etc.)
+
 class seatType
 {
 
