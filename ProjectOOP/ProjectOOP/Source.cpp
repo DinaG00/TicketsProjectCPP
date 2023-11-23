@@ -17,7 +17,6 @@ Each class will have at least 2 overloaded operators from the following(the same
 	This phase is considered implemented if at least 75 % of requirements are implemented*/
 
 //Definition of at least 3 classes related to the project requirement per team member.For individual projects, at least 3 classes:
-//
 //Each class must contain at least one dynamically defined field managed by a pointer and at least one statically defined array; both character strings(char* or string * ) and vectors of numerical values must be taken into account
 //at least one class defines a static field
 //at least one class defines a constant field
@@ -26,7 +25,7 @@ Each class will have at least 2 overloaded operators from the following(the same
 //each class contains at least 2 generic methods for processing / displaying the attributes
 //each class contains at least 2 constructors with parameters, a copy constructor, a destructor and the overloaded form of the operator =
 //>> and << must be overloaded for each class
-//for each class, the following must be overloaded : indexing operator [], at least one mathematical operator (+, -, *or /), ++ or --(with the 2 forms), the cast operator (to any type) explicitly or implicitly, the negation operator !, a conditional operator (<.>, = < , >= ), operator for testing equality between 2 objects ==
+//for each class, the following must be overloaded : indexing operator [],  at least one mathematical operator (+, -, *or /), ++ or --(with the 2 forms), the cast operator (to any type) explicitly or implicitly, the negation operator !, a conditional operator (<.>, = < , >= ), operator for testing equality between 2 objects ==
 //	All classes can be defined in a single source file or in separate header files
 //
 //	Solution main method can be placed in another source file
