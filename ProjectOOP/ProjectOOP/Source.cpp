@@ -43,14 +43,102 @@ using namespace std;
 //(eg: maximum number of seats, number of rows , zones, number/coding of seats per row, etc.)
 class Location
 {
+	int totalSeatsNo = 0;
+	int totalRowsNo = 0;
+	int totalZonesNo = 0;
+
 
 };
 
 //---------------------------------------------------------------------------------------------------------------------
 //reading the characteristics of the event
 //(eg: date, time, name, etc.)
-class event
+
+enum Months {January = 1,February,March,April,May,June,July};
+class Date
 {
+	int day;
+	Months month;		
+	int year;
+
+	static int maxDay;
+
+	Date(int day, Months month, int year)
+	{
+		this->day = day;
+		this->month = month;
+		this->year = year;
+	}
+
+	int getDay()
+	{
+		return this->day;
+	}
+
+	int getMonth()
+	{
+		return this->month;
+	}
+
+	int getYear()
+	{
+		return this->year;
+	}
+
+	void setMonth(Months value)
+	{
+		if (value < 1 && value>12)
+			throw exception("wrong month");
+		else
+		{
+			this->month = value;
+			switch (value) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				maxDay = 30;
+			case 2:
+				maxDay = 28;
+			default:
+				maxDay = 31;
+			}
+			if (this->day > maxDay)
+				throw exception("wrong day");
+		}
+		
+	}
+
+	void setDay(int value)
+	{
+		switch (this->month) {
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			maxDay = 30;
+		case 2:
+			maxDay = 28;
+		default:
+			maxDay = 31;
+		}
+		if (value < 1 && value>maxDay)
+			throw exception("wrong day");
+		else
+			this->day = value;
+	}
+};
+int Date::maxDay = 31;
+
+class Event
+{
+	string name;
+	string details;
+	Date eventDate;
+	int hour;							
+	int minute;
+
+
 
 };
 
@@ -58,7 +146,17 @@ class event
 //nominal tickets according to the desired characteristics
 //(eg: VIP, lawn, tribune, boxes, etc.)
 
-class seatType
+//class seatType
+//{
+//	string name = "";
+//	int totalRowNo = 0;
+//	int firstRow = 0;
+//
+//};
+
+
+//row number, seat number, price, event, const id
+class Ticket
 {
 
 };
