@@ -1,39 +1,4 @@
-﻿/*Minimum 3 classes related to the project
-Classes must contain(in total, not each) at least one dynamically allocated vector of characters, one dynamically allocated numeric vector, one constant field, one static field and one method static.Members must be related to the class.
-All attributes will be defined in the private area of ​​the class
-All attributes will have accessor methods; setters will contain validations
-Each class will contain at least 2 generic methods(other than constructors or accessors) that will be used to perform various processing
-Each class will contain at least one default constructor and one with parameters.Classes with pointer members will follow the "rule of 3".
-Each class will contain overloads for << and >> operators
-Each class will have at least 2 overloaded operators from the following(the same operator cannot be overloaded in 2 different classes) :
-	indexing operator []
-	arithmetic operators(+, -, *or /)
-	++ or --(both forms)
-	implicitly or explicitly cast
-	negation operator !
-	relational operators(<.>, = < , >= , == )
-	Classes will be implemented in their own header and/or cpp file
-	Main function will be located in another cpp file
-	This phase is considered implemented if at least 75 % of requirements are implemented*/
-
-//Definition of at least 3 classes related to the project requirement per team member.For individual projects, at least 3 classes:
-//Each class must contain at least one dynamically defined field managed by a pointer and at least one statically defined array; both character strings(char* or string * ) and vectors of numerical values must be taken into account
-//at least one class defines a static field
-//at least one class defines a constant field
-//all attributes are defined on the private area of the class
-//for each attribute, a public interface(accessory functions) is defined that allows reading and writing the value; setter methods must validate input values and throw exception if they are not valid
-//each class contains at least 2 generic methods for processing / displaying the attributes
-//each class contains at least 2 constructors with parameters, a copy constructor, a destructor and the overloaded form of the operator =
-//>> and << must be overloaded for each class
-//for each class, the following must be overloaded : indexing operator [],  at least one mathematical operator (+, -, *or /), ++ or --(with the 2 forms), the cast operator (to any type) explicitly or implicitly, the negation operator !, a conditional operator (<.>, = < , >= ), operator for testing equality between 2 objects ==
-//	All classes can be defined in a single source file or in separate header files
-//
-//	Solution main method can be placed in another source file
-//
-//	Phase 1 is considered completed if at least 75 % of the requirements are implemented
-//
-
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 
 using namespace std;
@@ -41,18 +6,16 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------------
 //reading the characteristics of the event location 
 //(eg: maximum number of seats, number of rows , zones, number/coding of seats per row, etc.)
-class Location
-{
-	int totalSeatsNo = 0;
-	int totalRowsNo = 0;
-	int totalZonesNo = 0;
+//class Location
+//{
+//	int totalSeatsNo = 0;
+//	int totalRowsNo = 0;
+//	int totalZonesNo = 0;
+//
+//
+//};
 
 
-};
-
-//---------------------------------------------------------------------------------------------------------------------
-//reading the characteristics of the event
-//(eg: date, time, name, etc.)
 
 enum Months {January = 1,February,March,April,May,June,July};
 class Date
@@ -61,15 +24,18 @@ class Date
 	Months month;		
 	int year;
 
-	static int maxDay;
+public:
+
+	static int MAX_DAY;
 
 	Date(int day, Months month, int year)
 	{
-		this->day = day;
-		this->month = month;
-		this->year = year;
+		this->setDay(day);
+		this->setMonth(month);
+		this->setYear(year);
 	}
-
+private:
+	//getters:
 	int getDay()
 	{
 		return this->day;
@@ -85,9 +51,10 @@ class Date
 		return this->year;
 	}
 
+	//setters:
 	void setMonth(Months value)
 	{
-		if (value < 1 && value>12)
+		if (value < 1 || value>12)
 			throw exception("wrong month");
 		else
 		{
@@ -97,13 +64,26 @@ class Date
 			case 6:
 			case 9:
 			case 11:
-				maxDay = 30;
+				MAX_DAY = 30;
 			case 2:
-				maxDay = 28;
+			if (this->year % 400 == 0) 
+				MAX_DAY = 29;
+			else 
+				{
+				if (this->year % 100 == 0)
+					MAX_DAY = 28;
+				else 
+					{
+					if (this->year % 4 == 0)
+						MAX_DAY = 29;
+					else
+						MAX_DAY = 28;
+					}
+				}
 			default:
-				maxDay = 31;
+				MAX_DAY = 31;
 			}
-			if (this->day > maxDay)
+			if (this->day > Date::MAX_DAY)
 				throw exception("wrong day");
 		}
 		
@@ -116,20 +96,72 @@ class Date
 		case 6:
 		case 9:
 		case 11:
-			maxDay = 30;
+			Date::MAX_DAY = 30;
 		case 2:
-			maxDay = 28;
+			Date::MAX_DAY = 28;
 		default:
-			maxDay = 31;
+			Date::MAX_DAY = 31;
 		}
-		if (value < 1 && value>maxDay)
+		if (value < 1 || value > MAX_DAY)
 			throw exception("wrong day");
 		else
 			this->day = value;
 	}
-};
-int Date::maxDay = 31;
 
+	void setYear(int value)
+	{
+		if (year < 2000 || year>2150)
+			throw exception("Wrong year");
+		else
+			this->year = value;
+	}
+};
+int Date::MAX_DAY = 31;
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+class Time
+{
+	int hour;
+	int minute;
+
+public:
+	Time(int hour, int minute)
+	{
+		this->setHour(hour);
+		this->setMinute(minute);
+	}
+private:
+	//getters:
+	int getHour()
+	{
+		return this->hour;
+	}
+
+	int getMinute()
+	{
+		return this->minute;
+	}
+
+	//setters:
+	void setHour(int value)
+	{
+		if (value < 0 || value>24)
+			throw exception("wrong hour");
+		else
+			this->hour = value;
+	}
+	void setMinute(int value)
+	{
+		if (value < 0 || value>59)
+			throw exception("wrong hour");
+		else
+			this->minute = value;
+	}
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//reading the characteristics of the event
+//(eg: date, time, name, etc.)
 class Event
 {
 	string name;
@@ -156,14 +188,20 @@ class Event
 
 
 //row number, seat number, price, event, const id
-class Ticket
-{
-
-};
+//class Ticket
+//{
+//
+//};
 
 
 
 int main()
 {
+	//Date date1(29, February, 2001);
+	Date date1(25, February, 2001);
+	//Date date1(45, January, 2001);
+	//Time time1(14, 54);
+	//Time time1(78, 12);
+	
 	
 }
