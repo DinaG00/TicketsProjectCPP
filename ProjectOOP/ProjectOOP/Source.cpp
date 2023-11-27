@@ -421,6 +421,11 @@ public:
 		this->eventTime.printTime();
 	}
 
+	bool operator==(Event x)
+	{
+
+	}
+
 };
 //overload cout:
 ostream& operator<<(ostream& console, Event& e)
