@@ -16,6 +16,69 @@ class Location
 	int* zoneFirstRow = new int[totalZonesNo];
 	int* zoneLastRow = new int[totalZonesNo];
 
+public:
+	//getters:
+
+	string getName()
+	{
+		return this->name;
+	}
+
+	int getTotalSeatNo()
+	{
+		return this->totalSeatsNo;
+	}
+
+	int getTotalRowsNo()
+	{
+		return this->totalRowsNo;
+	}
+
+	int gotTotalZonesNo()
+	{
+		return this->totalZonesNo;
+	}
+
+	string* getZoneNames()
+	{
+		return this->zoneNames;
+	}
+
+	int* getZoneFirstRow()
+	{
+		return this->zoneFirstRow;
+	}
+
+	int* getZoneLastRow()
+	{
+		return this->zoneLastRow;
+	}
+
+	//setters:
+
+	void setName(string value)
+	{
+		if (value.size() < 3 || value.size() > 200)
+			throw exception("Name too short");
+		else
+			this->name = value;
+
+	}
+
+	void setZoneFirstRow(int* someRows, int totalRows)
+	{
+		if (someRows == nullptr)
+			throw exception("Enter some rows");
+		if (this->zoneFirstRow != nullptr)
+			delete[]this->zoneFirstRow;
+		//this->zoneFirstRow = new int*[totalRows];
+		for (int i = 0; i < totalRows; i++)
+		{
+			this->zoneFirstRow[i] = someRows[i];
+		}
+
+		this->totalRowsNo = totalRows;
+	}
 	//overload =, !=	
 
 };
@@ -179,7 +242,7 @@ ostream& operator<<(ostream& console, Date& d)
 //overload cin for Date
 void operator>>(istream& console, Date&d)
 {
-	cout << endl << "---------Event Date---------";
+	//cout << endl << "---------Event Date---------";
 	int day;
 	cout << endl << "Event day:";
 	console >> day;
@@ -250,14 +313,15 @@ public:
 	}
 };
 
+//overload cout
 ostream& operator<<(ostream& console, Time& t)
 {
 	console <<endl<<"time : " << t.getHour() << ":" << t.getMinute();
 	return console;
 }
-
+//overload cin
 void operator>>(istream& console, Time& t) {
-	cout << endl << "------------Event Time-----------";
+	//cout << endl << "------------Event Time-----------";
 	cout << endl << "Event hour is : ";
 	int h;
 	console >> h;
@@ -281,6 +345,13 @@ class Event
 	Time eventTime;
 
 public:
+
+	//default constructor
+	Event()
+	{
+
+	}
+	//constructor
 	Event(string name, string details, Date date, Time time)
 	{
 		this->setName(name);
@@ -351,7 +422,7 @@ public:
 	}
 
 };
-
+//overload cout:
 ostream& operator<<(ostream& console, Event& e)
 {
 	console << endl << "-------------EVENT--------------------";
@@ -361,25 +432,51 @@ ostream& operator<<(ostream& console, Event& e)
 	console << endl << "Event time : "<<e.getTime().getHour()<<":"<<e.getTime().getMinute();
 	return console;
 }
+//overload cin:
+void operator>>(istream& console, Event& e)
+{
+	cout << endl << "Event name : ";
+	char buffer[2000];
+	console.getline(buffer, 2000);
+	console.clear();
+	e.setName(buffer);
+
+	cout << endl << "Event detailes : ";
+	console.getline(buffer, 2000);
+	console.clear();
+	e.setDetails(buffer);
+
+	cout << endl << "Event date : ";
+	Date d;
+	cin >> d;
+	e.setDate(d);
+
+	cout << endl << "Event time : ";
+	Time t;
+	cin >> t;
+	e.setTime(t);
+
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //nominal tickets according to the desired characteristics
 //(eg: VIP, lawn, tribune, boxes, etc.)
 
 
-/*row number, seat number, price, event, const id
-class Ticket
-{
-	const id=1;
-	string zoneName;
-	int rowNo;
-	int seatNo;
-	double price;
-	string eventName;
+//row number, seat number, price, event, const id
+//class Ticket
+//{
+//	const id=1;
+//	string zoneName;
+//	int rowNo;
+//	int seatNo;
+//	double price;
+//	string eventName;
+//
+//
+//};
 
-
-};
-*/
 
 
 
@@ -410,5 +507,9 @@ int main()
 	Time time1(16, 15);
 	Event event1("Concert Delia", "concert blablabla", date1, time1);
 	cout << event1;*/
+
+	//Event e;
+	//cin >> e;
+	//cout << e;
 	
 }
