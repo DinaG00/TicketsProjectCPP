@@ -12,12 +12,31 @@ class Location
 	int totalSeatsNo = 1;
 	int totalRowsNo = 1;
 	int totalZonesNo = 1;
-	string* zoneNames = new string[totalZonesNo];
-	int* zoneFirstRow = new int[totalZonesNo];
-	int* zoneLastRow = new int[totalZonesNo];
+	string* zoneNames = nullptr;
+	int* zoneFirstRow = nullptr;
+	int* zoneLastRow = nullptr;
 
 public:
-	//getters:
+
+//default constructor:
+	Location()
+	{
+
+	}
+
+//constructors:
+	Location(string name, int seats, int rows, int zones, string* zoneNames, int* firstRow)
+	{
+		this->setName(name);
+		this->setTotalSeatsNo(seats);
+		this->setTotalRowsNo(rows);
+		this->setTotalZonesNo(zones);
+		this->setZoneNames(zoneNames);
+		this->setZoneFirstRow(firstRow);
+
+	}
+
+//getters:
 
 	string getName()
 	{
@@ -34,7 +53,7 @@ public:
 		return this->totalRowsNo;
 	}
 
-	int gotTotalZonesNo()
+	int getTotalZonesNo()
 	{
 		return this->totalZonesNo;
 	}
@@ -46,12 +65,18 @@ public:
 
 	int* getZoneFirstRow()
 	{
-		return this->zoneFirstRow;
+		int* copy = new int[this->totalZonesNo];
+		for (int i = 0; i < this->totalZonesNo; i++)
+			copy[i] = this->zoneFirstRow[i];
+		return copy;
 	}
 
 	int* getZoneLastRow()
 	{
-		return this->zoneLastRow;
+		int* copy = new int[this->totalZonesNo];
+		for (int i = 0; i < this->totalZonesNo; i++)
+			copy[i] = this->zoneLastRow[i];
+		return copy;
 	}
 
 	//setters:
@@ -65,20 +90,119 @@ public:
 
 	}
 
-	void setZoneFirstRow(int* someRows, int totalRows)
+	void setTotalSeatsNo(int value)
 	{
-		if (someRows == nullptr)
-			throw exception("Enter some rows");
+		if (value < 0)
+			throw exception("Wrong total seats number");
+		else
+			this->totalSeatsNo = value;
+	}
+
+	void setTotalRowsNo(int value)
+	{
+		if (value < 1)
+			throw exception("Wrong total rows number");
+		else
+			this->totalRowsNo = value;
+	}
+
+	void setTotalZonesNo(int value)
+	{
+		if (value < 1)
+			throw exception("Wrong total zones number");
+		else
+			this->totalZonesNo = value;
+
+	}
+
+	void setZoneNames(string* value)
+	{
+		this->zoneNames = value;
+	}
+
+	void setZoneFirstRow(int* array)
+	{
 		if (this->zoneFirstRow != nullptr)
-			delete[]this->zoneFirstRow;
-		//this->zoneFirstRow = new int*[totalRows];
-		for (int i = 0; i < totalRows; i++)
+			delete[] this->zoneFirstRow;
+		this->zoneFirstRow = new int[this->totalZonesNo];
+		for (int i = 0; i < this->totalZonesNo; i++)
 		{
-			this->zoneFirstRow[i] = someRows[i];
+			this->zoneFirstRow[i] = array[i];
 		}
 
-		this->totalRowsNo = totalRows;
 	}
+	/*string name = "";
+		int totalSeatsNo = 1;
+		int totalRowsNo = 1;
+		int totalZonesNo = 1;
+		string* zoneNames = nullptr;
+		int* zoneFirstRow = nullptr;
+		int* zoneLastRow = nullptr;*/
+
+//methods:
+	void printInfoLocation()
+	{
+		cout << endl << "Total seat number : " << this->getTotalSeatNo();
+		cout << endl << "Total rows number : " << this->getTotalRowsNo();
+		cout << endl << "Total zones number : " << this->getTotalZonesNo();
+
+		cout << endl << "Zones' names : ";
+		for (int i = 0; i < this->totalZonesNo; i++)
+			cout << this->zoneNames[i] << " ";
+
+		cout << endl << "Zones' first row : ";
+		for (int i = 0; i < this->totalZonesNo; i++)
+			cout << this->zoneFirstRow[i] << " ";
+
+		cout << endl << "Zones' last row : ";
+		for (int i = 0; i < this->totalZonesNo; i++)
+			cout << this->zoneLastRow << " ";
+	}
+
+//copy constructor:
+	Location(const Location& object)
+	{
+		this->name = object.name;
+		this->totalSeatsNo = object.totalSeatsNo;
+		this->totalRowsNo = object.totalRowsNo;
+		this->totalZonesNo = object.totalZonesNo;
+		this->zoneNames = object.zoneNames;
+
+		this->zoneFirstRow = new int[object.totalZonesNo];
+		for (int i = 0; i < object.totalZonesNo; i++)
+		{
+			this->zoneFirstRow[i] = object.zoneFirstRow[i];
+		}
+
+		this->zoneLastRow = new int[object.totalZonesNo];
+		for (int i = 0; i < object.totalZonesNo; i++)
+		{
+			this->zoneLastRow[i] = object.zoneLastRow[i];
+		}
+	}
+
+//destructor:	
+	~Location()
+	{
+		delete[] this->zoneFirstRow;
+		delete[] this->zoneLastRow;
+	}
+
+
+	//void setZoneFirstRow(int* someRows, int totalRows)
+	//{
+	//	if (someRows == nullptr)
+	//		throw exception("Enter some rows");
+	//	if (this->zoneFirstRow != nullptr)
+	//		delete[]this->zoneFirstRow;
+	//	//this->zoneFirstRow = new int*[totalRows];
+	//	for (int i = 0; i < totalRows; i++)
+	//	{
+	//		this->zoneFirstRow[i] = someRows[i];
+	//	}
+
+	//	this->totalRowsNo = totalRows;
+	//}
 	//overload =, !=	
 
 };
@@ -421,10 +545,10 @@ public:
 		this->eventTime.printTime();
 	}
 
-	bool operator==(Event x)
+	/*bool operator==(Event x)
 	{
-
-	}
+		if(this->getName() == x.getName() || && this->get
+	}*/
 
 };
 //overload cout:
@@ -468,19 +592,44 @@ void operator>>(istream& console, Event& e)
 //nominal tickets according to the desired characteristics
 //(eg: VIP, lawn, tribune, boxes, etc.)
 
+class Ticket
+{
+	const int id=1;
+	string zoneName = "";
+	int rowNo = 0;
+	int seatNo = 0;
+	double price = 0;
+	string eventName = "";
 
-//row number, seat number, price, event, const id
-//class Ticket
-//{
-//	const id=1;
-//	string zoneName;
-//	int rowNo;
-//	int seatNo;
-//	double price;
-//	string eventName;
-//
-//
-//};
+public:
+//getters:
+
+	string getZoneName()
+	{
+		return this->zoneName;
+	}
+
+	int getRowNo()
+	{
+		return this->rowNo;
+	}
+
+	int getSeatNo()
+	{
+		return this->seatNo;
+	}
+	double getPrice()
+	{
+		return this->price;
+	}
+	string getEventName()
+	{
+		return this->eventName;
+	}
+
+//setters:
+
+};
 
 
 
@@ -491,7 +640,7 @@ int main()
 	//Date date1(15, February, 2001);
 	//Date date1(34, January, 2001);
 	//date1.printDate();
-	
+
 	//Time time1(14, 54);
 	//Time time1(78, 12);
 	/*Date date1(15, February, 2001);
@@ -516,5 +665,20 @@ int main()
 	//Event e;
 	//cin >> e;
 	//cout << e;
+
+	string names[] = { "VIP","LOJA","normal" };
+	/*names[0] = "VIP";
+	names[1] = "LOJA";
+	names[2] = "normal";*/
+
+	int rows[] = { 1,11,31 };
+
+	/*int* rows = new int[10];
+	rows[0] = 1;
+	rows[1] = 11;
+	rows[2] = 31;*/
+
+	Location l1("Stadion Dinamo", 360, 60, 3, names, rows);
+	l1.printInfoLocation();
 	
 }
