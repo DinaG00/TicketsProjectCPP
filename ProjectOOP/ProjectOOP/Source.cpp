@@ -18,13 +18,13 @@ class Location
 
 public:
 
-//default constructor:
+	//default constructor:
 	Location()
 	{
 
 	}
 
-//constructors:
+	//constructors:
 	Location(string name, int seats, int rows, int zones, string* zoneNames, int* firstRow)
 	{
 		this->setName(name);
@@ -36,7 +36,7 @@ public:
 
 	}
 
-//getters:
+	//getters:
 
 	string getName()
 	{
@@ -117,7 +117,14 @@ public:
 
 	void setZoneNames(string* value)
 	{
-		this->zoneNames = value;
+		if (this->zoneNames != nullptr)
+			delete[] this->zoneNames;
+		else
+		{
+			this->zoneNames = new string[this->totalZonesNo];
+			for (int i = 0; i < this->totalZonesNo; i++)
+				this->zoneNames[i] = value[i];
+		}
 	}
 
 	void setZoneFirstRow(int* array)
@@ -129,17 +136,22 @@ public:
 		{
 			this->zoneFirstRow[i] = array[i];
 		}
-
+		delete[] array;
 	}
-	/*string name = "";
-		int totalSeatsNo = 1;
-		int totalRowsNo = 1;
-		int totalZonesNo = 1;
-		string* zoneNames = nullptr;
-		int* zoneFirstRow = nullptr;
-		int* zoneLastRow = nullptr;*/
 
-//methods:
+	void setZoneLastRow(int* array)
+	{
+		if (this->zoneLastRow != nullptr)
+			delete[] this->zoneLastRow;
+		else
+		{
+			this->zoneLastRow = new int[this->totalZonesNo];
+			for (int i = 0; i < this->totalZonesNo; i++)
+				this->zoneLastRow[i] = array[i];
+			delete[] array;
+		}
+	}
+	//methods:
 	void printInfoLocation()
 	{
 		cout << endl << "Total seat number : " << this->getTotalSeatNo();
@@ -186,26 +198,77 @@ public:
 	{
 		delete[] this->zoneFirstRow;
 		delete[] this->zoneLastRow;
+		delete[] this->zoneNames;
 	}
 
 
-	//void setZoneFirstRow(int* someRows, int totalRows)
-	//{
-	//	if (someRows == nullptr)
-	//		throw exception("Enter some rows");
-	//	if (this->zoneFirstRow != nullptr)
-	//		delete[]this->zoneFirstRow;
-	//	//this->zoneFirstRow = new int*[totalRows];
-	//	for (int i = 0; i < totalRows; i++)
-	//	{
-	//		this->zoneFirstRow[i] = someRows[i];
-	//	}
-
-	//	this->totalRowsNo = totalRows;
-	//}
-	//overload =, !=	
 
 };
+
+ostream& operator<<(ostream& console, Location& l)
+{
+	console << endl << "Location's name : " << l.getName();
+	console << endl << "Total seat number : " << l.getTotalSeatNo();
+	console << endl << "Total rows number : " << l.getTotalRowsNo();
+	console << endl << "Total zones number : " << l.getTotalZonesNo();
+
+	console << endl << "Zones' names : ";
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+		cout << l.getZoneNames()[i] << " ";
+
+	console << endl << "Zones' first row : ";
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+		cout << l.getZoneFirstRow()[i] << " ";
+
+	console << endl << "Zones' last row : ";
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+		cout << l.getZoneLastRow()[i] << " ";
+	return console;
+}
+
+void operator>>(istream& console, Location& l)
+{
+	string n;
+	cout << "Enter location's name : ";
+	console >> n;
+	l.setName(n);
+	int x;
+	cout << endl << "Enter the total number of seats in the location : ";
+	console >> x;
+	l.setTotalSeatsNo(x);
+	cout << endl << "Enter the total number of rows in the location : ";
+	console>> x;
+	l.setTotalRowsNo(x);
+	cout << endl << "Enter the total number of zones in the location : ";
+	console>> x;
+	l.setTotalZonesNo(x);
+
+	cout << endl << "Enter the names of the zones : ";
+	string* s = new string[l.getTotalZonesNo()];
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+	{
+		console >> s[i];
+	}
+	l.setZoneNames(s);
+	if (s != nullptr)
+		delete[] s;
+
+	cout << endl << "Enter the first row of each zone : ";
+	int* array = new int[l.getTotalZonesNo()];
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+		console >> array[i];
+	l.setZoneFirstRow(array);
+	if (array != nullptr)
+		delete[] array;
+
+	cout << endl << "Enter the last row of each zone : ";
+	int* array2 = new int[l.getTotalZonesNo()];
+	for (int i = 0; i < l.getTotalZonesNo(); i++)
+		console >> array2[i];
+	l.setZoneLastRow(array);
+	if (array2 != nullptr)
+		delete[] array2;
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -678,7 +741,11 @@ int main()
 	rows[1] = 11;
 	rows[2] = 31;*/
 
-	Location l1("Stadion Dinamo", 360, 60, 3, names, rows);
-	l1.printInfoLocation();
+	/*Location l1("Stadion Dinamo", 360, 60, 3, names, rows);
+	l1.printInfoLocation();*/
+
+	Location l1;
+	cin >> l1;
+	cout << l1;
 	
 }
