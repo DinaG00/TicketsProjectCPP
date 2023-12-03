@@ -178,7 +178,12 @@ public:
 		this->totalSeatsNo = object.totalSeatsNo;
 		this->totalRowsNo = object.totalRowsNo;
 		this->totalZonesNo = object.totalZonesNo;
-		this->zoneNames = object.zoneNames;
+		
+		this->zoneNames = new string[object.totalZonesNo];
+		for (int i = 0; i < object.totalZonesNo; i++)
+		{
+			this->zoneNames[i] = object.zoneNames[i];
+		}
 
 		this->zoneFirstRow = new int[object.totalZonesNo];
 		for (int i = 0; i < object.totalZonesNo; i++)
@@ -228,10 +233,12 @@ ostream& operator<<(ostream& console, Location& l)
 
 void operator>>(istream& console, Location& l)
 {
-	string n;
 	cout << "Enter location's name : ";
-	console >> n;
-	l.setName(n);
+	char buffer[2000];
+	console.getline(buffer, 2000);
+	console.clear();
+	l.setName(buffer);
+
 	int x;
 	cout << endl << "Enter the total number of seats in the location : ";
 	console >> x;
@@ -258,16 +265,16 @@ void operator>>(istream& console, Location& l)
 	for (int i = 0; i < l.getTotalZonesNo(); i++)
 		console >> array[i];
 	l.setZoneFirstRow(array);
-	if (array != nullptr)
-		delete[] array;
+	/*if (array != nullptr)
+		delete[] array;*/
 
 	cout << endl << "Enter the last row of each zone : ";
 	int* array2 = new int[l.getTotalZonesNo()];
 	for (int i = 0; i < l.getTotalZonesNo(); i++)
 		console >> array2[i];
 	l.setZoneLastRow(array);
-	if (array2 != nullptr)
-		delete[] array2;
+	/*if (array2 != nullptr)
+		delete[] array2;*/
 }
 
 
@@ -691,8 +698,80 @@ public:
 	}
 
 //setters:
+	void setZoneName(string s)
+	{
+		if (s.size() < 3 || s.size() > 50)
+			throw exception("Wrong zone name");
+		this->zoneName = s;
+	}
+	void setRowNo(int value)
+	{
+		if (value < 1)
+			throw exception("Wrong row number");
+		this->rowNo = value;
+	}
+	void setSeatNo(int value)
+	{
+		if (value < 1)
+			throw exception("Wrong seat number");
+		this->seatNo = value;
+	}
+	void setPrice(int value)
+	{
+		if(value<1)
+			throw exception("Wrong price");
+		this->price = value;
+	}
+	void setEventName(string s)
+	{
+		if (s.size() < 3 || s.size() > 200)
+			throw exception("Wrong event name");
+		this->eventName = s;
+	}
 
+	
 };
+
+ostream& operator<<(ostream& console, Ticket& e)
+{
+	console << endl << "--------------TICKET-----------------";
+	console << endl << "Event name is : " << e.getEventName();
+	console << endl << "Zone name is : " << e.getZoneName();
+	console << endl << "Price : " << e.getPrice();
+	console << endl << "Seat : " << e.getSeatNo();
+	console << endl << "Row : " << e.getRowNo();
+	return console;
+}
+//overload cin:
+void operator>>(istream& console, Ticket& e)
+{
+	cout << endl << "Event name : ";
+	char buffer[2000];
+	console.getline(buffer, 2000);
+	console.clear();
+	e.setEventName(buffer);
+
+	cout << endl << "Zone name : ";
+	console.getline(buffer, 2000);
+	console.clear();
+	e.setZoneName(buffer);
+
+	cout << endl << "Price : ";
+	int p;
+	cin >> p;
+	e.setPrice(p);
+
+	cout << endl << "Seat : ";
+	int s;
+	cin >> s;
+	e.setSeatNo(s);
+
+	cout << endl << "Row : ";
+	int r;
+	cin >> r;
+	e.setRowNo(r);
+
+}
 
 
 
@@ -747,5 +826,14 @@ int main()
 	Location l1;
 	cin >> l1;
 	cout << l1;
+
+	Ticket t1;
+	cin >> t1;
+	cout << t1;
+
+	Event e;
+	cin >> e;
+	cout << e;
+
 	
 }
